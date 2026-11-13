@@ -2,7 +2,7 @@
 
 A lightweight, gamified learning platform that teaches **C programming, electronics, embedded systems, and Agentic AI from absolute zero** — explained in friendly **Tanglish** (Tamil + English), built for an ECE diploma student catching up on missed classes.
 
-**Status: v2.1 — bug-fixed core (routing/tools/lessons), Supabase email auth + isolated accounts + cloud progress sync, UI language setting (Tanglish/English), responsive desktop/mobile, reorganized into `frontend/` + `backend/`, Vercel-ready. Deployment itself still needs to be done by you (see Deploy section).**
+**Status: v2.1 — bug-fixed core (routing/tools/lessons), Supabase email auth + isolated accounts + cloud progress sync, UI language setting (Tanglish/English), responsive desktop/mobile, `frontend/` + `backend/` structure. 🌐 Live at [https://embedquest-one.vercel.app](https://embedquest-one.vercel.app) — deployed & verified.**
 
 ---
 
@@ -120,7 +120,7 @@ The app is deployment-ready: `frontend/vercel.json` routes every path to `index.
 5. **Deploy.** You get a public URL like `https://your-project.vercel.app` — same link on laptop and mobile.
 6. Add that URL to Supabase **Site URL** + **Redirect URLs** (step 5 above).
 
-> ⚠️ **Not deployed yet** — the steps above are what remains for you. Nothing in this repo claims a deployed URL until you run this.
+> ✅ **Deployed (Nov 13, 2026)** — live at **https://embedquest-one.vercel.app**, imported via the Vercel dashboard with **Root Directory = `frontend`**. Post-deploy verification: root + nested routes HTTP 200 (SPA rewrite active), assets served with immutable caching, Supabase URL + publishable key baked into the bundle.
 
 ---
 

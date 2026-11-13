@@ -38,3 +38,4 @@ Scenarios from the requirements, with an honest status per item.
 - Local/guest honesty: without credentials the app shows an explicit local-mode notice — it never fakes a cloud connection.
 - Locked-world clicks no longer navigate home.
 - Content integrity intact: 11 worlds / 90 lessons / 79 boss questions / 8 tools / 9 projects (validate output).
+- **Deployed to Vercel** (https://embedquest-one.vercel.app) — root + nested paths return HTTP 200, SPA rewrite verified on `/worlds` and `/tools/converter`, assets immutable-cached, Supabase URL + publishable key confirmed baked into the bundle.
