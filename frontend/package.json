@@ -1,0 +1,32 @@
+{
+  "name": "embedquest",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "EMBEDQUEST - gamified Tanglish learning platform for C programming, electronics, embedded systems and Agentic AI",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "validate": "esbuild scripts/validate.ts --bundle --platform=node --format=cjs --outfile=scripts/validate.cjs --log-level=error && node scripts/validate.cjs",
+    "test": "esbuild scripts/test.ts --bundle --platform=node --format=cjs --outfile=scripts/test.cjs --log-level=error && node scripts/test.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.8",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.4.1",
+    "tailwindcss": "^4.1.8",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true
+  }
+}

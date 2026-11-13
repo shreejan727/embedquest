@@ -1,0 +1,22 @@
+# dependencies (any depth — covers frontend/node_modules)
+node_modules
+
+# build output (any depth — covers frontend/dist)
+dist
+
+# secrets / local env files — NEVER commit (frontend/.env has real credentials)
+.env
+.env.*
+!.env.example
+
+# generated CJS test/validate artifacts
+frontend/scripts/validate.cjs
+frontend/scripts/test.cjs
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# shree's personal files — never publish
+subabase pass/
+promt.txt

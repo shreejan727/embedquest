@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+
+/* Enable class-based dark mode (we toggle .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Noto Sans',
+    'Noto Sans Tamil',
+    sans-serif;
+}
+
+/* ---------- Reusable game-UI helpers (kept tiny on purpose) ---------- */
+
+/* Soft glow used on XP bar and active path nodes */
+.eq-glow {
+  box-shadow: 0 0 14px 2px rgb(99 102 241 / 0.45);
+}
+
+/* Pixel-ish chunky shadow for buttons, Minecraft-lite feel */
+.eq-chunky {
+  box-shadow:
+    0 3px 0 0 rgb(0 0 0 / 0.35),
+    inset 0 1px 0 0 rgb(255 255 255 / 0.12);
+}
+.eq-chunky:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 0 rgb(0 0 0 / 0.35),
+    inset 0 1px 0 0 rgb(255 255 255 / 0.12);
+}
+
+/* Subtle grid background for world-map areas */
+.eq-grid-bg {
+  background-image:
+    linear-gradient(rgb(99 102 241 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(99 102 241 / 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Blinking cursor for the terminal vibe */
+.eq-cursor::after {
+  content: '_';
+  animation: eq-blink 1s step-end infinite;
+}
+@keyframes eq-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Horizontal scroll safety for ASCII diagrams on mobile */
+pre.eq-diagram {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Thin styled scrollbars */
+* {
+  scrollbar-width: thin;
+}

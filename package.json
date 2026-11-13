@@ -1,0 +1,13 @@
+{
+  "name": "embedquest-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "description": "EMBEDQUEST workspace — frontend/ (React app) + backend/supabase/ (database schema). Scripts below forward into frontend/.",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview",
+    "test": "npm --prefix frontend run test",
+    "validate": "npm --prefix frontend run validate"
+  }
+}
