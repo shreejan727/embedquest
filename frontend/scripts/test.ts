@@ -7,6 +7,7 @@
 import assert from 'node:assert/strict';
 import { mergeProgress } from '../src/lib/progressMerge';
 import { levelFromXp, levelProgress, currentStreak, XP_PER_LEVEL, rankFromXp } from '../src/lib/progress';
+import { sanitizeCSource } from '../src/lib/cSanitize';
 import { DEFAULT_PROGRESS, type ProgressState } from '../src/lib/types';
 
 let passed = 0;
@@ -153,6 +154,45 @@ console.log('\nStreak logic');
   ok('gap breaks the streak (two days ago only → 0)', () => assert.equal(currentStreak([two]), 0));
   ok('consecutive days counted backwards (run ending yesterday → 5)', () => {
     assert.equal(currentStreak([five, dateKey(4), dateKey(3), dateKey(2), yest]), 5);
+  });
+}
+
+console.log('\nC source sanitizer (JSCPP comma-space bug)');
+{
+  const s = sanitizeCSource;
+
+  ok('code without comma-space is untouched', () => {
+    const code = 'int main() { int a,b; a=1; b=2; return a+b; }';
+    assert.equal(s(code), code);
+  });
+  ok('comma-space inside printf literal becomes adjacent literals', () => {
+    assert.equal(s('printf("Hello, World!\\n");'), 'printf("Hello," " World!\\n");');
+  });
+  ok('every space after comma is preserved (double space)', () => {
+    assert.equal(s('"a,  b"'), '"a," "  b"');
+  });
+  ok('comma without following space is untouched', () => {
+    assert.equal(s('printf("a,b\\n");'), 'printf("a,b\\n");');
+  });
+  ok('comma inside char literal is untouched', () => {
+    assert.equal(s("if (c == ',') {}"), "if (c == ',') {}");
+  });
+  ok('comments are untouched', () => {
+    const code = '// a, b\n/* c,  d */\nint x;';
+    assert.equal(s(code), code);
+  });
+  ok('escaped quotes do not confuse the scanner', () => {
+    const code = 'printf("say \\"hi, ok\\" now\\n");';
+    assert.equal(s(code), 'printf("say \\"hi," " ok\\" now\\n");');
+  });
+  ok('comma-space at end of literal', () => {
+    assert.equal(s('puts("a, ")'), 'puts("a," " ")');
+  });
+  ok('two comma-spaces in one literal', () => {
+    assert.equal(s('"a, b, c"'), '"a," " b," " c"');
+  });
+  ok('newline after comma is NOT transformed (only space/tab)', () => {
+    assert.equal(s('"a,\nb"'), '"a,\nb"');
   });
 }
 

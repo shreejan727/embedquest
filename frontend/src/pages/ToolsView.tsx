@@ -1,13 +1,14 @@
 // ============================================================
 // EMBEDQUEST — Tools hub
 // ============================================================
-import { Binary, CircuitBoard, Columns3, Grid3x3, Palette, Sigma, Terminal, Waves } from 'lucide-react';
+import { Binary, CircuitBoard, Columns3, FlaskConical, Grid3x3, Palette, Sigma, Terminal, Waves } from 'lucide-react';
 import { Card } from '../components/common';
 import { Link } from '../lib/router';
 import { t } from '../lib/i18n';
 import { useProgress } from '../lib/progress';
 
 const TOOLS = [
+  { to: '/tools/lab', icon: <FlaskConical className="h-6 w-6" />, title: 'Circuit Lab 🧪', desc: 'Animated circuit sims (Ohm, RC, LED) + real Falstad lab', world: 'World 5' },
   { to: '/tools/converter', icon: <Binary className="h-6 w-6" />, title: 'Number Converter', desc: 'Binary, decimal, hex, octal — live conversion', world: 'World 2' },
   { to: '/tools/gates', icon: <CircuitBoard className="h-6 w-6" />, title: 'Logic Gate Simulator', desc: 'Toggle switches, see gates output live', world: 'World 4' },
   { to: '/tools/ohm', icon: <Sigma className="h-6 w-6" />, title: "Ohm's Law Calculator", desc: 'V, I, R — enter any two, get the third', world: 'World 5' },
@@ -15,7 +16,7 @@ const TOOLS = [
   { to: '/tools/series-parallel', icon: <Columns3 className="h-6 w-6" />, title: 'Series/Parallel R', desc: 'Add resistors, get both totals', world: 'World 5' },
   { to: '/tools/breadboard', icon: <Grid3x3 className="h-6 w-6" />, title: 'Virtual Breadboard', desc: 'Learn rows, columns & rails safely', world: 'World 5' },
   { to: '/tools/arduino', icon: <Waves className="h-6 w-6" />, title: 'Arduino Pin Explorer', desc: 'UNO pinout, PWM pins, analog pins', world: 'World 6' },
-  { to: '/tools/playground', icon: <Terminal className="h-6 w-6" />, title: 'C Code Playground', desc: 'Write C code — educational simulation', world: 'World 3' },
+  { to: '/tools/playground', icon: <Terminal className="h-6 w-6" />, title: 'C Code Playground ⚡', desc: 'Write C code — REAL runs in your browser', world: 'World 3' },
 ];
 
 export function ToolsView() {

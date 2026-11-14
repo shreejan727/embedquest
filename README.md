@@ -2,7 +2,7 @@
 
 A lightweight, gamified learning platform that teaches **C programming, electronics, embedded systems, and Agentic AI from absolute zero** — explained in friendly **Tanglish** (Tamil + English), built for an ECE diploma student catching up on missed classes.
 
-**Status: v2.1 — bug-fixed core (routing/tools/lessons), Supabase email auth + isolated accounts + cloud progress sync, UI language setting (Tanglish/English), responsive desktop/mobile, `frontend/` + `backend/` structure. 🌐 Live at [https://embedquest-one.vercel.app](https://embedquest-one.vercel.app) — deployed & verified.**
+**Status: v2.2 — bug-fixed core (routing/tools/lessons), Supabase email auth + isolated accounts + cloud progress sync, UI language setting (Tanglish/English), responsive desktop/mobile, MIAA (Gemini) AI tutor, Tools 2.0 (real in-browser C runs + Circuit Lab). 🌐 Live at [https://embedquest-one.vercel.app](https://embedquest-one.vercel.app) — deployed & verified.**
 
 ---
 
@@ -15,7 +15,7 @@ frontend/              ← the React app (everything that ships to the browser)
 │   ├── lib/           ← types, curriculum, progress store, cloud sync, Supabase, auth, i18n, router
 │   ├── components/    ← reusable UI (auth screen, quiz engine, lesson renderer, onboarding…)
 │   ├── pages/         ← dashboard, worlds, lesson flow, tools hub, projects, profile
-│   └── tools/         ← the 8 interactive tools
+│   └── tools/         ← the 9 interactive tools (+ circuitlab/ sim modules)
 ├── scripts/           ← validate.ts (content gate) + test.ts (unit tests)
 ├── index.html
 ├── vite.config.ts / tsconfig.json
@@ -133,13 +133,22 @@ The app is deployment-ready: `frontend/vercel.json` routes every path to `index.
 | **90 lessons** | Real-life intro → Tanglish explanation → analogy → visual diagram → technical terms → worked examples → common mistakes → tiny practical task → 3–5 question quiz → XP |
 | **Gamification** | XP, levels & RPG ranks (Spark → Quest Master), daily streak 🔥, badges, daily missions, **79 boss questions** across 11 boss battles, world unlock rules |
 | **Language setting** | Tanglish / English interface switch (top bar `EN`/`த` or Profile → Settings), remembered & cloud-synced |
-| **8 interactive tools** | Number converter, logic-gate simulator, Ohm's-law calc, resistor color code, series/parallel R, virtual breadboard, Arduino pin explorer, C code playground |
+| **9 interactive tools** | **Circuit Lab 🧪** (animated Ohm/series-parallel/RC/LED sims + embedded Falstad engine), number converter, logic-gate simulator, Ohm's-law calc, resistor color code, series/parallel R, virtual breadboard, Arduino pin explorer, **C code playground ⚡ with real in-browser runs** |
 | **9 guided projects** | LED blink → night lamp → ultrasonic detector → DHT11 monitor → ESP32 home automation → IoT MQTT dashboard → FreeRTOS multi-tasking → Agentic AI assistant → capstone. Circuit guides, full code, **line-by-line explanations**, troubleshooting, safety notes (low voltage only) |
 | **MIAA — AI tutor** | Real AI tutor powered by **Gemini** via a server-side proxy (the key NEVER touches the browser). Honest mode: hints, never quiz answers. Offline rule-based fallback included |
 
-### Honest-mode code playground
-The C playground is a **code editor with known expected outputs** — it never fakes compilation.
-Verify your code on a real compiler (`gcc`, [onlinegdb.com](https://www.onlinegdb.com), or Arduino IDE).
+### Real C runs in the browser (no server, offline)
+The playground now **actually executes student programs** using the [JSCPP](https://github.com/felixhao28/JSCPP) interpreter inside a Web Worker:
+
+- **Instant & offline** — no backend, no quota, unlimited runs; stdout streams live; `scanf` input box included
+- **Teaching-grade safety** — infinite loops are killed automatically (5 s cooperative limit + worker hard-kill), overflow & uninitialized-variable checks give beginner-friendly Tanglish error hints
+- **Honest labeling** — it is a teaching-grade interpreter, **not gcc**; a one-click [onlinegdb.com](https://www.onlinegdb.com) link is provided for the full-compiler experience
+- **Known JSCPP bug worked around in code** — the library's preprocessor eats the space after commas inside string literals (`printf("Hello, World!")` printed `"Hello,World!"`); `src/lib/cSanitize.ts` rewrites those literals into adjacent-literal form before each run (unit-tested)
+- **Lazy loading** — the interpreter ships as a separate worker chunk and loads only on the first Run
+
+### Circuit Lab (animated sims + Falstad engine)
+- **Our sims** (offline, gamified, Tanglish hints): Ohm's-law flow (animated charge dots + lamp brightness), series vs parallel (branch splitting), RC charging/discharging (live scope + τ = RC), LED + resistor (overcurrent warning 💥)
+- **Falstad Full Lab tab** — the real [Falstad CircuitJS](https://www.falstad.com/) SPICE-style simulator embedded in an iframe (needs internet, English UI), plus "Export As Link" import: paste any falstad/lushprojects circuit link to run it inside the app
 
 ---
 

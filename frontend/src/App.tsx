@@ -20,6 +20,7 @@ import { GatesTool } from './tools/GatesTool';
 import { OhmTool, ResistorTool, SeriesParallelTool } from './tools/CalcTools';
 import { BreadboardTool, ArduinoPinsTool } from './tools/BoardTools';
 import { PlaygroundTool } from './tools/PlaygroundTool';
+import { CircuitLabTool } from './tools/CircuitLabTool';
 import { navigate, useRoute } from './lib/router';
 import { useProgress } from './lib/progress';
 import { t } from './lib/i18n';
@@ -35,6 +36,7 @@ const TOOL_MAP: Record<string, () => JSX.Element> = {
   breadboard: BreadboardTool,
   arduino: ArduinoPinsTool,
   playground: PlaygroundTool,
+  lab: CircuitLabTool,
 };
 
 function NotFound() {
