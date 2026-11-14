@@ -12,6 +12,7 @@ import {
   Moon,
   Settings,
   Sun,
+  User,
   Wrench,
   Zap,
 } from 'lucide-react';
@@ -39,7 +40,7 @@ function NavItem({
         active
           ? 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-300'
           : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70'
-      } ${compact ? 'flex-col gap-1 px-2 py-1.5 text-[10px]' : ''}`}
+      } ${compact ? 'flex-col gap-1 whitespace-nowrap px-1.5 py-1.5 text-[10px]' : ''}`}
     >
       {icon}
       <span>{label}</span>
@@ -95,9 +96,12 @@ export function Layout({ children }: { children: ReactNode }) {
                 </div>
               </div>
             </Link>
-            <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 sm:hidden">
+            <Link
+              to="/profile"
+              className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 sm:hidden"
+            >
               Lv {lp.level}
-            </span>
+            </Link>
             <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-1 text-xs font-bold text-orange-600 dark:bg-orange-500/15 dark:text-orange-400">
               <Flame className="h-3.5 w-3.5" /> {streak}
             </span>
@@ -143,7 +147,11 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* Mobile bottom nav */}
       <nav className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95 lg:hidden">
         <div className="mx-auto flex max-w-lg items-stretch justify-around px-1 py-1.5">
-          {nav.map((n) => (
+          {[
+            ...nav,
+            // Profile must be reachable on phones too (desktop has it in the sidebar).
+            { to: '/profile', icon: <User className="h-5 w-5" />, label: t('nav_profile') },
+          ].map((n) => (
             <NavItem
               key={n.to}
               {...n}
