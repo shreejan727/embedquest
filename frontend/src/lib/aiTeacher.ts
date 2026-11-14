@@ -9,6 +9,7 @@
 // ============================================================
 import { ALL_LESSONS, getLesson } from './curriculum';
 import type { Lesson } from './types';
+import { t } from './i18n';
 
 export interface TeacherMessage {
   role: 'user' | 'teacher';
@@ -20,6 +21,8 @@ export interface TeacherContext {
   /** Current lesson id, if the student is inside a lesson. */
   lessonId?: string;
   question: string;
+  /** Recent conversation (MIAA continuity), oldest first. */
+  history?: Array<{ role: 'user' | 'teacher'; text: string }>;
 }
 
 export interface TeacherReply {
@@ -176,13 +179,19 @@ async function remoteTeacher(ctx: TeacherContext): Promise<TeacherReply | null> 
       body: JSON.stringify({
         lessonId: ctx.lessonId,
         question: ctx.question,
+        history: ctx.history,
         // The teacher system prompt lives on the server so keys stay safe.
       }),
     });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { text?: string; lessonRef?: string };
-    if (!data.text) return null;
-    return { text: data.text, mode: 'remote', lessonRef: data.lessonRef };
+    const data = (await res.json().catch(() => ({}))) as { text?: string; lessonRef?: string; error?: string };
+    if (res.ok && data.text) {
+      return { text: data.text, mode: 'remote', lessonRef: data.lessonRef };
+    }
+    // Rate limit / timeout → friendly busy message instead of a canned answer.
+    if (typeof data.error === 'string' && /rate limit|timeout/i.test(data.error)) {
+      return { text: t('teacher_busy'), mode: 'local' };
+    }
+    return null; // any other failure → graceful fallback to local teacher
   } catch {
     return null; // graceful fallback to local teacher
   }

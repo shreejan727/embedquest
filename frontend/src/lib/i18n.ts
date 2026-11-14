@@ -156,11 +156,15 @@ const TANGLISH = {
   project_back: '← All projects',
   project_content_note: 'Content note: project instructions & code explanations are currently in Tanglish. English version coming soon!',
 
-  // ---- teacher ----
-  teacher_h1: 'AI Teacher 🤖',
+  // ---- teacher (MIAA) ----
+  teacher_h1: 'MIAA 🤖',
   teacher_sub: 'Eppovum keyirukura study buddy — doubt kelu, explain pannuven.',
+  teacher_intro: 'Vanakkam! 🤖 Naan MIAA — un AI tutor. Friendly-ah, patient-ah, Tanglish la explain pannuven.\n\nQuiz answers direct-a solla maaten — think panna vaippem. Doubt kelu, hint keelu, illa "X na enna?" nu kelu.',
   teacher_local_note: 'Local Teacher Mode (offline) — answers Tanglish la dhaan varum.',
-  teacher_remote_note: 'Connected AI mode',
+  teacher_remote_note: 'MIAA online — Gemini powered ⚡',
+  teacher_note_local: 'Local mode: offline rule-based helper. Vercel la GEMINI_API_KEY add pannina, MIAA (real AI) automatic-a ON aagum.',
+  teacher_note_remote: 'MIAA live — Gemini free tier la rate limit irukkum; busy-ah irundha oru minute la retry pannu.',
+  teacher_busy: 'MIAA konjam busy 😅 (Gemini limit) — oru minute la try pannu.',
   teacher_thinking: 'yosikkiren...',
   teacher_ph: "Example: Ohm's law epdi work aagudhu?",
   teacher_hint_mode: 'Hint mode ON — answer solla maaten, clue mattum!',
@@ -377,9 +381,15 @@ const ENGLISH: Partial<Record<DictKey, string>> = {
   project_back: '← All projects',
   project_content_note: 'Content note: project instructions & code explanations are currently in Tanglish. English version coming soon!',
 
-  // ---- teacher ----
+  // ---- teacher (MIAA) ----
+  teacher_h1: 'MIAA 🤖',
   teacher_sub: 'Your always-available study buddy — ask a doubt, get an explanation.',
-  teacher_local_note: 'Local Teacher Mode (offline) — answers come in Tanglish.',
+  teacher_intro: "Hi! 🤖 I am MIAA — your AI tutor. Friendly, patient, and I explain clearly.\n\nI never hand over quiz answers — I help you think. Ask a doubt, ask for a hint, or ask 'what is X?'",
+  teacher_local_note: 'Local Teacher Mode (offline) — answers come in simple English.',
+  teacher_remote_note: 'MIAA is online — powered by Gemini ⚡',
+  teacher_note_local: 'Local mode: offline rule-based helper. Add GEMINI_API_KEY in Vercel and MIAA (real AI) switches on automatically.',
+  teacher_note_remote: 'MIAA is live — the Gemini free tier has rate limits; if she is busy, retry in a minute.',
+  teacher_busy: 'MIAA is a bit busy 😅 (Gemini limit) — try again in a minute.',
   teacher_thinking: 'thinking...',
   teacher_ph: "Example: How does Ohm's law work?",
 

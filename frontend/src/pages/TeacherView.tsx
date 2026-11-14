@@ -1,5 +1,5 @@
 // ============================================================
-// EMBEDQUEST — AI Teacher chat (local mode now, API-ready)
+// EMBEDQUEST — MIAA chat (Gemini via /api/teacher, offline fallback)
 // ============================================================
 import { useEffect, useRef, useState } from 'react';
 import { Bot, Feather, Lightbulb, Send, User } from 'lucide-react';
@@ -27,8 +27,7 @@ export function TeacherView() {
   const [messages, setMessages] = useState<TeacherMessage[]>([
     {
       role: 'teacher',
-      text:
-        'Vanakkam! 🤖 Naan un AI Teacher — friendly mentor, patient-a, Tanglish la explain pannuven.\n\nNaan answers direct-a kudukka maaten — think panna vaippem. Doubt kelu, hint keelu, illa "X na enna?" nu kelu.',
+      text: t('teacher_intro'),
     },
   ]);
   const [input, setInput] = useState('');
@@ -44,7 +43,9 @@ export function TeacherView() {
     setMessages((m) => [...m, { role: 'user', text }]);
     setInput('');
     setBusy(true);
-    const reply = await askTeacher({ question: text });
+    // Recent conversation (skip the greeting) so MIAA keeps continuity.
+    const history = messages.slice(1).slice(-6).map((m) => ({ role: m.role, text: m.text }));
+    const reply = await askTeacher({ question: text, history });
     setMessages((m) => [...m, { role: 'teacher', text: reply.text, hintMode: false }]);
     setBusy(false);
   }
@@ -160,9 +161,7 @@ export function TeacherView() {
       </form>
       <p className="mt-2 flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
         <Lightbulb className="h-3.5 w-3.5" />
-        {mode === 'local'
-          ? 'Local mode: rule-based offline helper. Real AI model integration ready — server endpoint set pannina automatic-a switch aagum (see README).'
-          : 'Remote AI mode active — answers come from your configured teacher endpoint.'}
+        {mode === 'local' ? t('teacher_note_local') : t('teacher_note_remote')}
       </p>
     </div>
   );

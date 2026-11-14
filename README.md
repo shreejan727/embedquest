@@ -116,7 +116,7 @@ The app is deployment-ready: `frontend/vercel.json` routes every path to `index.
 1. Push this folder to a **GitHub repository** (`.gitignore` already protects `frontend/.env`, `node_modules`, `dist`).
 2. On [vercel.com](https://vercel.com) → *Add New Project* → import the repo.
 3. **Important — Root Directory**: set it to **`frontend`** (the repo root has no build; the app lives in `frontend/`). Framework auto-detects **Vite**; build command `npm run build`, output `dist`.
-4. *Environment Variables* → add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (same values as `frontend/.env`).
+4. *Environment Variables* → add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (same values as `frontend/.env`). Optional, for the MIAA AI tutor: `GEMINI_API_KEY` (server-side only — see the MIAA section).
 5. **Deploy.** You get a public URL like `https://your-project.vercel.app` — same link on laptop and mobile.
 6. Add that URL to Supabase **Site URL** + **Redirect URLs** (step 5 above).
 
@@ -135,7 +135,7 @@ The app is deployment-ready: `frontend/vercel.json` routes every path to `index.
 | **Language setting** | Tanglish / English interface switch (top bar `EN`/`த` or Profile → Settings), remembered & cloud-synced |
 | **8 interactive tools** | Number converter, logic-gate simulator, Ohm's-law calc, resistor color code, series/parallel R, virtual breadboard, Arduino pin explorer, C code playground |
 | **9 guided projects** | LED blink → night lamp → ultrasonic detector → DHT11 monitor → ESP32 home automation → IoT MQTT dashboard → FreeRTOS multi-tasking → Agentic AI assistant → capstone. Circuit guides, full code, **line-by-line explanations**, troubleshooting, safety notes (low voltage only) |
-| **AI Teacher** | Chat-style mentor in honest **Local Teacher Mode** (offline, rule-based — never hands over quiz answers). Remote AI endpoint auto-enables when configured (see below) |
+| **MIAA — AI tutor** | Real AI tutor powered by **Gemini** via a server-side proxy (the key NEVER touches the browser). Honest mode: hints, never quiz answers. Offline rule-based fallback included |
 
 ### Honest-mode code playground
 The C playground is a **code editor with known expected outputs** — it never fakes compilation.
@@ -143,18 +143,17 @@ Verify your code on a real compiler (`gcc`, [onlinegdb.com](https://www.onlinegd
 
 ---
 
-## 🧠 AI Teacher integration (optional, future-ready)
+## 🧠 MIAA — the real AI tutor (Gemini, key stays server-side)
 
-The app works 100% offline. To plug in a real model later:
+MIAA lives on the **Teacher** page. When `GEMINI_API_KEY` is set in Vercel, MIAA is powered by Gemini through the serverless function [`frontend/api/teacher.mjs`](frontend/api/teacher.mjs) — the browser calls `/api/teacher`, the function calls Gemini with the key, the key is **never baked into the public JS bundle**. Without the key, she gracefully falls back to the offline rule-based teacher and the UI says so.
 
-1. Add to `frontend/.env`:
-   ```env
-   VITE_AI_ENDPOINT=http://localhost:8787/teacher
-   ```
-2. That endpoint should accept `{ lessonId, question }` and return `{ text, lessonRef? }`.
-   Keep the model API key **on the server side** — never in frontend code.
+- **Model**: `gemini-2.5-flash-lite` (verified working; override with `GEMINI_MODEL` in Vercel)
+- **Persona**: Tanglish tutor, short mobile-friendly answers, real-life analogies — and she **never hands over quiz answers**, she teaches toward them
+- **Memory**: the last 6 chat messages are sent as context, so follow-up questions work
+- **Free tier**: Gemini rate limits apply — if MIAA is busy, a friendly "try again in a minute" shows up
+- **Local dev**: `vite.config.ts` proxies `/api/*` to the deployed function, so localhost uses the same key safely
 
-No endpoint set → the local fallback teacher is used automatically and the UI says so.
+**Setup (one-time):** Vercel → your project → *Settings → Environment Variables* → add `GEMINI_API_KEY` (Environments: Production + Preview + Development) → *Deployments → Redeploy*. Done.
 
 ---
 
