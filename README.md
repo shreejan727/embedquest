@@ -153,7 +153,10 @@ MIAA lives on the **Teacher** page. When `GEMINI_API_KEY` is set in Vercel, MIAA
 - **Free tier**: Gemini rate limits apply — if MIAA is busy, a friendly "try again in a minute" shows up
 - **Local dev**: `vite.config.ts` proxies `/api/*` to the deployed function, so localhost uses the same key safely
 
-**Setup (one-time):** Vercel → your project → *Settings → Environment Variables* → add `GEMINI_API_KEY` (Environments: Production + Preview + Development) → *Deployments → Redeploy*. Done.
+**Setup (one-time, two variables):** Vercel → your project → *Settings → Environment Variables*:
+1. `VITE_AI_ENDPOINT` = `/api/teacher`  (Environments: Production + Preview) — tells the frontend where MIAA lives
+2. `GEMINI_API_KEY` = your Gemini key  (Environments: Production + Preview + Development) — **server-side only, never a `VITE_` variable**
+3. Then *Deployments → ⋯ → Redeploy* so the new build picks them up.
 
 ---
 
