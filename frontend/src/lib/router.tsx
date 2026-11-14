@@ -6,7 +6,11 @@ import { createContext, useContext, useEffect, useState, type ReactNode, type Mo
 
 function readPath(): string {
   const h = window.location.hash.replace(/^#/, '');
-  return h === '' ? '/' : h;
+  // Only treat the fragment as a route when it starts with '/' (our own
+  // routes). Anything else — e.g. Supabase email-confirmation fragments
+  // like '#access_token=...&type=signup' — is not a route: render the
+  // home view while supabase-js consumes the tokens from the URL.
+  return h.startsWith('/') ? h : '/';
 }
 
 const RouterContext = createContext<{ path: string }>({ path: '/' });
