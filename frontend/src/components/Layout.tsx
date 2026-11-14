@@ -67,7 +67,7 @@ export function Layout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       {/* Top bar */}
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+        <div className="mx-auto flex max-w-[1600px] items-center gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 font-mono text-lg font-bold text-white eq-glow">
               &gt;_
@@ -123,7 +123,7 @@ export function Layout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="mx-auto flex max-w-6xl">
+      <div className="mx-auto flex max-w-[1600px]">
         {/* Desktop sidebar */}
         <aside className="sticky top-[61px] hidden h-[calc(100vh-61px)] w-52 shrink-0 flex-col gap-1 border-r border-slate-200 p-3 dark:border-slate-800 lg:flex">
           {nav.map((n) => (
